@@ -4,6 +4,10 @@
 // use std::sync::Arc;
 // use std::cell::Cell;
 // use std::cell::RefCell;
+use std::sync::Mutex;
+use std::time::Duration;
+use std::collections::VecDeque;
+use std::thread;
 
 // threadには引数として分岐するスレッドに実行させたい関数を与える。
 // 普通はクロージャを与えることが一般的
@@ -30,8 +34,47 @@ pub fn thread_use() {
     // f6(&v1_1, &v1_1); // Cell { value: 2 }, Cell { value: 2 }
     // f6_2(&v1_3);
     // f7(&v2); // RefCell { value: [1] }
-    
+    // f8();
+    f9();
 }
+
+fn f9() {
+    let queue = Mutex::new(VecDeque::new());
+    thread::scope(|s| {
+        let t = s.spawn(|| loop {
+            let item = queue.lock().unwrap().pop_front();
+            if let Some(item)=item {
+                dbg!(item);
+            }else {
+                thread::park();
+            }
+        });
+        
+        for i in 0.. {
+            queue.lock().unwrap().push_back(i);
+            t.thread().unpark();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+}
+
+
+// fn f8() {
+//     let n = Mutex::new(0);
+//     thread::scope(|s| {
+//         for _ in 0..10 {
+//             s.spawn(|| {
+//                 let mut guard = n.lock().unwrap();
+//                 for _ in 0..100 {
+//                     *guard += 1;
+//                 }
+//                 drop(guard);
+//                 thread::sleep(Duration::from_secs(1));
+//             });
+//         }
+//     });
+//     assert_eq!(n.into_inner().unwrap(), 1000)
+// }
 
 // // RefCellは借用を許す
 // fn f7(v: &RefCell<Vec<i32>>) {
