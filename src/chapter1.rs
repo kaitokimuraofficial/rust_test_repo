@@ -1,13 +1,13 @@
 // use std::borrow::BorrowMut;
-// use std::thread;
 // use std::rc::Rc;
 // use std::sync::Arc;
 // use std::cell::Cell;
 // use std::cell::RefCell;
-use std::sync::Mutex;
-use std::time::Duration;
-use std::collections::VecDeque;
-use std::thread;
+// use std::sync::Mutex;
+// use std::time::Duration;
+// use std::collections::VecDeque;
+// use std::thread;
+// use std::sync::Condvar;
 
 // threadには引数として分岐するスレッドに実行させたい関数を与える。
 // 普通はクロージャを与えることが一般的
@@ -35,29 +35,80 @@ pub fn thread_use() {
     // f6_2(&v1_3);
     // f7(&v2); // RefCell { value: [1] }
     // f8();
-    f9();
+    // f9();
+    // f10();
+    // f11();
 }
 
-fn f9() {
-    let queue = Mutex::new(VecDeque::new());
-    thread::scope(|s| {
-        let t = s.spawn(|| loop {
-            let item = queue.lock().unwrap().pop_front();
-            if let Some(item)=item {
-                dbg!(item);
-            }else {
-                thread::park();
-            }
-        });
+// fn f11() {
+//     let counter = Arc::new(Mutex::new(0));
+//     let mut handles = vec![];
+
+//     for _ in 0..10 {
+//         let counter = Arc::clone(&counter);
+//         let handle = thread::spawn(move || {
+//             let mut num = counter.lock().unwrap();
+
+//             *num += 1;
+//         });
+//         handles.push(handle);
+//     }
+
+//     for handle in handles {
+//         handle.join().unwrap();
+//     }
+
+//     println!("Result: {}", *counter.lock().unwrap());
+// }
+
+
+// fn f10() {
+//     let queue = Mutex::new(VecDeque::new());
+//     let not_empty = Condvar::new();
+
+//     thread::scope(|s| {
+//         s.spawn(|| {
+//             loop {
+//                 let mut q = queue.lock().unwrap();
+//                 let item = loop {
+//                     if let Some(item) = q.pop_front() {
+//                         break item;
+//                     } else {
+//                         q = not_empty.wait(q).unwrap();
+//                     }
+//                 };
+//                 drop(q);
+//                 dbg!(item);
+//             }
+//         });
+
+//         for i in 0.. {
+//             queue.lock().unwrap().push_back(i);
+//             not_empty.notify_one();
+//             thread::sleep(Duration::from_secs(1));
+//         }
+//     });
+// }
+
+// fn f9() {
+//     let queue = Mutex::new(VecDeque::new());
+//     thread::scope(|s| {
+//         let t = s.spawn(|| loop {
+//             let item = queue.lock().unwrap().pop_front();
+//             if let Some(item)=item {
+//                 dbg!(item);
+//             }else {
+//                 thread::park();
+//             }
+//         });
         
-        for i in 0.. {
-            queue.lock().unwrap().push_back(i);
-            t.thread().unpark();
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
-}
-
+//         for i in 0.. {
+//             queue.lock().unwrap().push_back(i);
+//             t.thread().unpark();
+//             thread::sleep(Duration::from_secs(1));
+//         }
+//     });
+// }
 
 // fn f8() {
 //     let n = Mutex::new(0);
