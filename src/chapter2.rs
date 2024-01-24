@@ -1,42 +1,52 @@
 // use core::num;
 // use std::sync::atomic::AtomicBool;
-use std::sync::atomic::AtomicUsize;
+use std::sync::atomic::AtomicU32;
+// use std::sync::atomic::AtomicUsize;
 use std::sync::atomic::Ordering::Relaxed;
-use std::thread;
-use std::time::Duration;
+// use std::thread;
+// use std::time::Duration;
 
 pub fn atomic() {
     // f1();
     // f2();
     // f3();
-    f4();
+    // f4();
+    let p = allocate_new_id();
+    println!("{p}");
 }
 
-fn f4() {
-    let num_done = &AtomicUsize::new(0);
-
-    thread::scope(|s| {
-        for _ in 0..4 {
-            s.spawn(move || {
-                for i in 0..25 {
-                    process_item(i);
-                    num_done.fetch_add(1, Relaxed);
-                }
-            });
-        }
-
-        loop {
-            let n = num_done.load(Relaxed);
-            if n == 100 {
-                break;
-            }
-            println!("Working.. {n}/100 done");
-            thread::sleep(Duration::from_secs(1));
-        }
-    });
-
-    println!("Done");
+fn allocate_new_id() -> u32 {
+    static NEXT_ID: AtomicU32 = AtomicU32::new(0);
+    let id = NEXT_ID.fetch_add(1, Relaxed);
+    assert!(id < 1000, "too many IDs");
+    id
 }
+
+// fn f4() {
+//     let num_done = &AtomicUsize::new(0);
+
+//     thread::scope(|s| {
+//         for _ in 0..4 {
+//             s.spawn(move || {
+//                 for i in 0..25 {
+//                     process_item(i);
+//                     num_done.fetch_add(1, Relaxed);
+//                 }
+//             });
+//         }
+
+//         loop {
+//             let n = num_done.load(Relaxed);
+//             if n == 100 {
+//                 break;
+//             }
+//             println!("Working.. {n}/100 done");
+//             thread::sleep(Duration::from_secs(1));
+//         }
+//     });
+
+//     println!("Done");
+// }
 
 // fn f3() {
 //     let num_done = AtomicUsize::new(0);
@@ -57,7 +67,7 @@ fn f4() {
 //                 break;
 //             }
 //             println!("Working.. {n}/100 done");
-//             thread::sleep(Duration::from_secs(1));
+//             thread::park_timeout(Duration::from_secs(1));
 //         }
 //     });
 
@@ -86,9 +96,9 @@ fn f4() {
 //     println!("Done");
 // }
 
-fn process_item(_i: usize) {
-    println!("hello");
-}
+// fn process_item(_i: usize) {
+//     println!("hello");
+// }
 
 // ストップフラグを実装すると、他のスレッドに停止するように伝えることができる
 // fn f1() {
