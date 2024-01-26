@@ -5,9 +5,9 @@
 mod chapter6;
 
 fn main() {
-    // chapter1::thread_use();
-    // chapter2::atomic();
-    // chapter4::do_chapter();
-    // chapter5::do_channel();
+    //     // chapter1::thread_use();
+    //     // chapter2::atomic();
+    //     // chapter4::do_chapter();
+    //     // chapter5::do_channel();
     chapter6::do_arc();
 }
