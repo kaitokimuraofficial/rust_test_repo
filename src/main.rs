@@ -1,3 +1,5 @@
+mod cell_and_refcell;
+
 // mod chapter1;
 // mod chapter2;
 // mod chapter4;
@@ -10,4 +12,5 @@ fn main() {
     //     // chapter4::do_chapter();
     //     // chapter5::do_channel();
     chapter6::do_arc();
+    cell_and_refcell::use_cell_and_refcell();
 }
