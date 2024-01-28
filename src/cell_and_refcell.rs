@@ -1,43 +1,43 @@
-use std::cell::{Cell, RefCell};
-// use std::cell::RefCell;
+// use std::cell::{Cell, RefCell};
+// // use std::cell::RefCell;
 
-pub fn use_cell_and_refcell() {
-    // use_cell();
-    // use_refcell();
-    prac1();
-}
+// pub fn use_cell_and_refcell() {
+//     // use_cell();
+//     // use_refcell();
+//     prac1();
+// }
 
-fn prac1() {
-    let a: i32 = 5;
-    println!("aのアドレス: {:p}", &a);
-    let c = Cell::new(a);
-    println!("cのアドレス: {:p}", &c);
-    let ptr = c.as_ptr();
-    println!("cの中身のアドレス: {:p}", ptr);
-    // println!("{}", *ptr)  これはコンパイラ的にはアウト
+// fn prac1() {
+//     let a: i32 = 5;
+//     println!("aのアドレス: {:p}", &a);
+//     let c = Cell::new(a);
+//     println!("cのアドレス: {:p}", &c);
+//     let ptr = c.as_ptr();
+//     println!("cの中身のアドレス: {:p}", ptr);
+//     // println!("{}", *ptr)  これはコンパイラ的にはアウト
 
-    println!("-------------");
+//     println!("-------------");
 
-    let mut c2 = Cell::new(5);
-    println!("c2のアドレス: {:p}", &c2);
-    let ptr2 = c2.as_ptr();
-    let ptr2_getmut = c2.get_mut();
-    println!("c23の中身のアドレス: {:p}", ptr2_getmut);
-    *ptr2_getmut += 1;
+//     let mut c2 = Cell::new(5);
+//     println!("c2のアドレス: {:p}", &c2);
+//     let ptr2_getmut = c2.get_mut();
+//     println!("c23の中身のアドレス: {:p}", ptr2_getmut);
+//     *ptr2_getmut += 1;
 
-    // However be cautious: this method expects self to be mutable,
-    // which is generally not the case when using a Cell
+//     // However be cautious: this method expects self to be mutable,
+//     // which is generally not the case when using a Cell
 
-    // If you require interior mutability by reference,
-    // consider using RefCell which provides run-time
-    // checked mutable borrows through its borrow_mut method.
+//     // If you require interior mutability by reference,
+//     // consider using RefCell which provides run-time
+//     // checked mutable borrows through its borrow_mut method.
 
-    println!("-------------");
+//     println!("-------------");
 
-    let r = RefCell::new(5);
-    let borrowed_r = r.borrow();
-    println!("rのアドレス: {}", borrowed_r);
-}
+//     let r = RefCell::new(5);
+//     let borrowed_r = r.borrow();
+//     println!("rのアドレス: {:p}", &borrowed_r);
+//     println!("rのアドレス: {:p}", &r);
+// }
 
 // struct SomeStruct2 {
 //     regular_field: u8,
