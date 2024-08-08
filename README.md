@@ -1,10 +1,10 @@
-## 目的
-Rust Atomics and Locks by Mara Bosを読みながらAtomic操作やロックに関するRustの実装を学ぶ
+# Rust_test_repo
+Rustについて学習した内容や実装をまとめたレポジトリです。Rustについて学習したことをドキュメントにまとめたり、勉強に役立った教材を整理したり、実装をまとめておいて振り返ることで、Rustの理解を深めていくことが最終的な目標です。
 
-## 構成
-章ごとにファイルを分割した
+## 各ディレクトリについて
+**[`docs`](/docs)**
+ドキュメントを保管しておくディレクトリです。
 
-## References
-[The Rust Standard Library](https://doc.rust-lang.org/std/index.html)
 
-[Rust Atomics and Locks by Mara Bos](https://marabos.nl/atomics/)
+## Ref
+
