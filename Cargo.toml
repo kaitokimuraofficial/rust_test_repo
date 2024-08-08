@@ -1,5 +1,5 @@
 [package]
-name = "rust-atomic-and-lock"
+name = "rust_test_repo"
 version = "0.1.0"
 edition = "2021"
 

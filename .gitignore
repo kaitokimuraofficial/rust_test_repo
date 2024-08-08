@@ -1,3 +1,9 @@
+# Ignore dotfiles
+.vscode
+.idea
+.DS_Store
+
+
+# Ignore file generated
 /target
 main
-.vscode
