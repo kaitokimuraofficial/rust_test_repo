@@ -1,4 +1,4 @@
-# TRAIT
+# From Into Trait
 
 ## [`From`と`Into`](https://doc.rust-jp.rs/rust-by-example-ja/conversion/from_into.html)
 
